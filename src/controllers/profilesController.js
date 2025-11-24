@@ -1,7 +1,25 @@
 const { listProfiles } = require("../services/profilesService");
+const { query, validationResult } = require("express-validator");
+
+const validatePagination = [
+  query("per_page")
+    .optional()
+    .isInt({ min: 1, max: 50 })
+    .withMessage("per_page must be an integer between 1 and 50"),
+  query("page")
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("page must be an integer ≥ 1"),
+];
 
 function getProfiles(req, res, next) {
   try {
+    // Check validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const per_pageRaw = req.query.per_page;
     const pageRaw = req.query.page;
     let per_page = Number(per_pageRaw) || 10;
@@ -16,4 +34,4 @@ function getProfiles(req, res, next) {
   }
 }
 
-module.exports = { getProfiles };
+module.exports = { getProfiles, validatePagination };
