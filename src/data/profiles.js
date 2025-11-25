@@ -20,7 +20,7 @@ const jobs = [
   "Consultant",
   "Architect",
 ];
-const hijabiPhotos = [
+const userPhotos = [
   "https://plus.unsplash.com/premium_photo-1676994901426-a61941a52fe0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aGlqYWJpJTIwZ2lybHxlbnwwfHwwfHx8MA%3D%3D",
   "https://plus.unsplash.com/premium_photo-1683133405779-081b5e4311e1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8aGlqYWJpJTIwZ2lybHxlbnwwfHwwfHx8MA%3D%3D",
   "https://plus.unsplash.com/premium_photo-1679064458881-76904cf6d1aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8aGlqYWJpJTIwZ2lybHxlbnwwfHwwfHx8MA%3D%3D",
@@ -399,9 +399,13 @@ const profiles = Array.from({ length: 100 }, (_, i) => {
     interestsList[(i * 4 + 2) % interestsList.length],
     interestsList[(i * 4 + 3) % interestsList.length],
   ];
-  const photo = hijabiPhotos[i];
+  const photo = userPhotos[i];
+  const photos = [
+    photo,
+    "https://images.unsplash.com/photo-1663000807047-5cdfa75c50bc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGRhdGluZyUyMGFwcHN8ZW58MHx8MHx8fDA%3D",
+  ];
   const match = i % 4 === 0;
-  return { id, name, age, job, distanceKm, bio, interests, photo, match };
+  return { id, name, age, job, distanceKm, bio, interests, photo, photos, match };
 });
 
 module.exports = { profiles };
