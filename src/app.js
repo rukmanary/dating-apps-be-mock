@@ -3,6 +3,8 @@ const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const profilesRoute = require("./routes/profiles");
+const uploadsRoute = require("./routes/uploads");
+const path = require("path");
 
 const app = express();
 
@@ -32,8 +34,11 @@ app.use(limiter);
 // Strict JSON body parser
 app.use(express.json({ limit: "10kb" }));
 
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
 // Routes
 app.use("/api/profiles", profilesRoute);
+app.use("/api", uploadsRoute);
 
 // Global error handler
 app.use((err, _req, res, _next) => {

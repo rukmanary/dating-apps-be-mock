@@ -34,3 +34,6 @@ pids/
 
 # Debug
 .vscode/
+
+uploads/
+data/
