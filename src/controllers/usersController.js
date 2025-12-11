@@ -14,7 +14,8 @@ function getUser(req, res) {
   }
   const id = Number(req.params.id);
   const user = getUserById(id);
-  if (!user) return res.status(404).json({ success: false, error: "User not found" });
+  if (!user)
+    return res.status(404).json({ success: false, error: "User not found" });
   return res.json({ success: true, user: serializeUser(user) });
 }
 
@@ -28,6 +29,8 @@ const validateUserPatch = [
   body("age").optional().isInt({ min: 0, max: 120 }),
   body("gender").optional().isString(),
   body("favorite_spot").optional().isString(),
+  body("job").optional().isString().isLength({ max: 100 }),
+  body("bio").optional().isString().isLength({ max: 1000 }),
   body("interest").optional().isArray(),
   body("distance_preference").optional().isInt({ min: 0, max: 500 }),
   body("photos").optional().isArray(),
@@ -40,7 +43,8 @@ function patchUser(req, res) {
   }
   const id = Number(req.params.id);
   const existing = getUserById(id);
-  if (!existing) return res.status(404).json({ success: false, error: "User not found" });
+  if (!existing)
+    return res.status(404).json({ success: false, error: "User not found" });
   const payload = { ...req.body };
   if (typeof payload.is_verified === "boolean")
     payload.is_verified = payload.is_verified ? 1 : 0;

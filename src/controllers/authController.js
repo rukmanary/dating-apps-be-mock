@@ -66,6 +66,8 @@ function serializeUser(u) {
     age: u.age || null,
     gender: u.gender || null,
     favorite_spot: u.favorite_spot || null,
+    job: u.job || null,
+    bio: u.bio || null,
     interest: u.interest ? JSON.parse(u.interest) : [],
     distance_preference: u.distance_preference || null,
     photos: u.photos ? JSON.parse(u.photos) : [],
