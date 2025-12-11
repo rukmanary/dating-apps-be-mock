@@ -17,7 +17,7 @@ function getProfiles(req, res, next) {
     // Check validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success: false, errors: errors.array() });
     }
 
     const per_pageRaw = req.query.per_page;
@@ -28,7 +28,7 @@ function getProfiles(req, res, next) {
     if (!Number.isFinite(page) || page <= 0) page = 1;
     if (per_page > 50) per_page = 50;
     const result = listProfiles({ per_page, page });
-    res.json(result);
+    res.json({ success: true, ...result });
   } catch (err) {
     next(err);
   }

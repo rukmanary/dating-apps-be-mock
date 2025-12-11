@@ -22,6 +22,10 @@ coverage/
 dist/
 build/
 
+# Runtime data & uploads
+data/
+uploads/
+
 # Cache
 .npm/
 .cache/
