@@ -1,9 +1,9 @@
-const Database = require('better-sqlite3');
-const path = require('path');
-const fs = require('fs');
+const Database = require("better-sqlite3");
+const path = require("path");
+const fs = require("fs");
 
-const dataDir = path.join(process.cwd(), 'data');
-const dbFile = path.join(dataDir, 'app.sqlite');
+const dataDir = path.join(process.cwd(), "data");
+const dbFile = path.join(dataDir, "app.sqlite");
 
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
@@ -11,8 +11,8 @@ if (!fs.existsSync(dataDir)) {
 
 const db = new Database(dbFile);
 
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
+db.pragma("journal_mode = WAL");
+db.pragma("foreign_keys = ON");
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS tokens (
@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS users (
   age INTEGER,
   gender TEXT,
   favorite_spot TEXT,
+  job TEXT,
+  bio TEXT,
   interest TEXT,
   distance_preference INTEGER,
   photos TEXT,
@@ -48,17 +50,17 @@ CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 // Lightweight migration to add new columns when upgrading existing databases
 try {
   const cols = db.prepare(`PRAGMA table_info(users)`).all();
-  const names = new Set(cols.map(c => c.name));
-  if (!names.has('job')) {
+  const names = new Set(cols.map((c) => c.name));
+  if (!names.has("job")) {
     db.exec(`ALTER TABLE users ADD COLUMN job TEXT`);
   }
-  if (!names.has('bio')) {
+  if (!names.has("bio")) {
     db.exec(`ALTER TABLE users ADD COLUMN bio TEXT`);
   }
 } catch (e) {
   // swallow migration errors to avoid startup failure; log in non-production
-  if (process.env.NODE_ENV !== 'production') {
-    console.error('Migration error (users add columns job/bio):', e.message);
+  if (process.env.NODE_ENV !== "production") {
+    console.error("Migration error (users add columns job/bio):", e.message);
   }
 }
 

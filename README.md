@@ -92,7 +92,7 @@ Content-Type yang didukung:
 - `application/json` (disarankan)
 - `application/x-www-form-urlencoded` (untuk klien sederhana)
 
-Field yang didukung untuk PATCH: `name`, `email`, `phone_number`, `is_verified` (boolean), `date_of_birth` (ISO date), `age`, `gender`, `favorite_spot`, `interest` (array), `distance_preference`, `photos` (array path)
+Field yang didukung untuk PATCH: `name`, `email`, `phone_number`, `is_verified` (boolean), `date_of_birth` (ISO date), `age`, `gender`, `favorite_spot`, `job` (≤100 chars), `bio` (≤500 chars), `interest` (array), `distance_preference`, `photos` (array path)
 
 Contoh update bertahap (JSON):
 
