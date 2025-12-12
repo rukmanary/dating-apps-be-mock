@@ -26,7 +26,6 @@ const validateUserPatch = [
   body("phone_number").optional().isString(),
   body("is_verified").optional().isBoolean(),
   body("date_of_birth").optional().isISO8601(),
-  body("age").optional().isInt({ min: 0, max: 120 }),
   body("gender").optional().isString(),
   body("favorite_spot").optional().isString(),
   body("job").optional().isString().isLength({ max: 100 }),
@@ -46,12 +45,24 @@ function patchUser(req, res) {
   if (!existing)
     return res.status(404).json({ success: false, error: "User not found" });
   const payload = { ...req.body };
+  delete payload.age;
   if (typeof payload.is_verified === "boolean")
     payload.is_verified = payload.is_verified ? 1 : 0;
   if (Array.isArray(payload.interest))
     payload.interest = JSON.stringify(payload.interest);
   if (Array.isArray(payload.photos))
     payload.photos = JSON.stringify(payload.photos);
+  if (payload.date_of_birth) {
+    const d = new Date(payload.date_of_birth);
+    if (!isNaN(d.getTime())) {
+      const t = new Date();
+      let a = t.getFullYear() - d.getFullYear();
+      const m = t.getMonth() - d.getMonth();
+      if (m < 0 || (m === 0 && t.getDate() < d.getDate())) a--;
+      if (a < 0) a = 0;
+      payload.age = a;
+    }
+  }
   const updated = updateUserPartial(id, payload);
   return res.json({ success: true, user: serializeUser(updated) });
 }

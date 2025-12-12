@@ -92,7 +92,7 @@ Content-Type yang didukung:
 - `application/json` (disarankan)
 - `application/x-www-form-urlencoded` (untuk klien sederhana)
 
-Field yang didukung untuk PATCH: `name`, `email`, `phone_number`, `is_verified` (boolean), `date_of_birth` (ISO date), `age`, `gender`, `favorite_spot`, `job` (≤100 chars), `bio` (≤500 chars), `interest` (array), `distance_preference`, `photos` (array path)
+Field yang didukung untuk PATCH: `name`, `email`, `phone_number`, `is_verified` (boolean), `date_of_birth` (ISO date), `gender`, `favorite_spot`, `job` (≤100 chars), `bio` (≤500 chars), `interest` (array), `distance_preference`, `photos` (array path). Kolom `age` dihitung otomatis dari `date_of_birth`.
 
 Contoh update bertahap (JSON):
 
@@ -266,7 +266,7 @@ Bebas digunakan untuk keperluan pribadi / edukasi.
 - Opsi 2 (Firebase): Client login via Firebase → `POST /api/auth/firebase` untuk verifikasi dan membuat user
 - Client memaksa user melengkapi profil secara bertahap:
   - Step 1 isi `name` → `PATCH /api/users/:id`
-  - Step 2 isi `date_of_birth` + `age` → `PATCH /api/users/:id`
+  - Step 2 isi `date_of_birth` → `PATCH /api/users/:id` (kolom `age` otomatis dihitung)
   - Step 3 isi `gender`, `favorite_spot`, `interest[]`, `distance_preference`
   - Step 4 upload photos → `POST /api/users/:id/photos` → path foto tersimpan ke `user.photos[]`
 - Jika user batal di tengah, data partial tetap tersimpan dan bisa dilanjutkan saat retry (client ambil initial value via `GET /api/users/:id`)
